@@ -11,6 +11,7 @@ In the config.json you can change a few variables
 - API_Key: This one you have to cange yourself. You can create one on the [Ionos Developer Page](https://developer.hosting.ionos.de/keys). Just give it any Name and save the prefix and encryption somewhere and create the key. Your API-Key is both the values combines with a period ( . ), so it should be prefix.encryption
 
 ## General Info/Bugs
+- When you first start the script, go in the web-ui and delete the test entry
 - I dont know what happens if your list is compleatly empty. I would reccomend at least having one entry in your domains list
 - If you exeed the rate limit set by ionos when you delte/add domains, it cannot update your update-url, so the new entry will probably not get updated next time
 - When you start the script it will update the DNS entry twice, this should not effect anything. Once because it get the new URL and once because it gets your "new" ip address 
