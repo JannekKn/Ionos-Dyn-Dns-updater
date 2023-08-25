@@ -392,38 +392,53 @@ async function updateUpdateURL() {
   }
 }
 
-async function updateDynDns() {
-  exec("curl -X GET " + updateUrl, (error, stdout, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`Updated the Domains - stdout: ${stdout}`);
-  });
+function updateDynDns() {
+  try {
+    exec("curl -X GET " + updateUrl, (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`Updated the Domains - stdout: ${stdout}`);
+    });
+  } catch (error) {
+    console.error("error in updateDynDns: " + error);
+  }
 }
 
 //die löst auch zum anfang aus, da von 0 zu aktueller ip ändert
-async function checkIP() {
+function checkIP() {
 
-  http.get({ 'host': 'api.ipify.org', 'port': 80, 'path': '/' }, function (resp) {
-    resp.on('data', function (ip) {
+  try {
+    http.get({ 'host': 'api.ipify.org', 'port': 80, 'path': '/' }, function (resp) {
+      let data = '';
 
-      var mycurIPString = mycurIP.toString();
-      var ipString = ip.toString();
-      if (mycurIPString != ipString) {
+      resp.on('data', function (chunk) {
+        data += chunk;
+      });
 
-        console.log("the new ip is " + ip)
+      resp.on('end', function () {
+        const ip = data.trim();
+        const mycurIPString = mycurIP.toString();
+        const ipString = ip.toString();
 
-        mycurIP = ip;
-
-        updateDynDns();
-      }
+        if (mycurIPString !== ipString) {
+          console.log("The new IP is " + ip);
+          mycurIP = ip;
+          updateDynDns();
+        }
+      });
+    }).on('error', function (error) {
+      console.error("Error in checkAndUpdateIP: " + error);
     });
-  });
+  } catch (error) {
+    console.error("Error in checkAndUpdateIP: " + error);
+  }
+
 }
 
 
