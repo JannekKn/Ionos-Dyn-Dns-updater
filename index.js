@@ -10,7 +10,7 @@ const { API_Key, filename, ip_check_delay_ms } = require('./config.json');
 
 
 const app = express();
-port = 42002;
+port = 80;
 app.use(bodyParser.json());
 
 // Pfade zur Domains-Datei
