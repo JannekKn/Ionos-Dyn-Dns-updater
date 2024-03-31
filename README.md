@@ -19,3 +19,7 @@ In the config.json you can change a few variables
 ## Support
 If you have a quistion i should be reachable over Discord. My Server invite: [https://discord.gg/dR7QmEzpah](https://discord.gg/dR7QmEzpah)
 
+
+##TODO
+Tell how to execute as node (with .env) and docker
+store the domains.txt as "config" folder in main mashine where docker is running, not inside container, so its save in case of reinstalling etc

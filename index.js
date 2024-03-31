@@ -5,8 +5,28 @@ const bodyParser = require('body-parser');
 const { exec } = require("child_process");
 const fs = require("fs");
 require('console-stamp')(console, '[HH:MM:ss.l]'); //ist für mich gerade einfach praktisch
-const { API_Key, filename, ip_check_delay_ms } = require('./config.json');
+//const { API_Key, filename, ip_check_delay_ms } = require('./config.json');
 
+const API_Key = process.env.API_KEY;
+const filename = process.env.FILENAME;
+const ip_check_delay_ms = process.env.IP_CHECK_DELAY_MS;
+
+console.log("Environment variables:", process.env);
+
+if (!API_Key) {
+  console.error("Error: API_KEY environment variable is not set.");
+  process.exit(1);
+}
+
+if (!filename) {
+  console.error("Error: FILENAME environment variable is not set.");
+  process.exit(1);
+}
+
+if (!ip_check_delay_ms) {
+  console.error("Error: IP_CHECK_DELAY_MS environment variable is not set.");
+  process.exit(1);
+}
 
 
 const app = express();

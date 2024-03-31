@@ -13,8 +13,12 @@ FROM node:${NODE_VERSION}-alpine
 # Use production node environment by default.
 ENV NODE_ENV production
 
-
 WORKDIR /usr/src/app
+
+RUN echo "example.com" > domains.txt
+
+# Install curl
+RUN apk add --no-cache curl
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
@@ -30,6 +34,11 @@ USER node
 
 # Copy the rest of the source files into the image.
 COPY . .
+
+
+USER root
+RUN chown node:node domains.txt
+USER node
 
 # Expose the port that the application listens on.
 EXPOSE 80
